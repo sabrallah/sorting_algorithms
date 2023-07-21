@@ -1,60 +1,96 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "sort.h"
 
+
 /**
- * counting_sort - sorts an array of integers in ascending order
- * using the Counting sort algorithm
- * @array: array of integers to sort
- * @size: size of the array
+ * start_initi - init array 0
  *
- * Description: This function sorts an array of integers in ascending order
- * using the Counting sort algorithm. It assumes that the input array will
- * contain only numbers >= 0. The function prints the counting array once it
- * is set up. The counting array is of size k + 1 where k is the largest number
- * in the input array. This version of the function takes into account the
- * minimum value in the input array to reduce the size of the counting array
- * and potentially improve the efficiency of the algorithm.
+ * @array: should init array
+ * @size: array size
+ */
+void start_initi(int *array, int size)
+{
+	int sy;
+
+	for (sy = 0; sy < size; sy++)
+		array[sy] = 0;
+}
+
+
+/**
+ * avoir_maxi - avoir maximaum valeur
+ *
+ * @array: plafond value from of array
+ * @size: array size
+ *
+ * Return: array max value
+ */
+int avoir_maxi(int *array, size_t size)
+{
+	int plafond;
+	size_t sy;
+
+	if (size < 2)
+		return (0);
+
+	plafond = array[0];
+
+	for (sy = 1; sy < size; sy++)
+	{
+		if (plafond < array[sy])
+			plafond = array[sy];
+	}
+
+	return (plafond);
+}
+
+
+/**
+ * counting_sort - sorts array of counting
+ * sort algo
+ *
+ * @array: init arrays
+ * @size: the array size
  */
 void counting_sort(int *array, size_t size)
 {
-	int i, j, max = 0, min = array[0];
-	int *count, *output;
+	int y = avoir_maxi(array, size), s, *place, *addplace, *my_sorted;
+	size_t sy;
 
-	if (array == NULL || size < 2)
+	if (y == 0)
 		return;
 
-	for (i = 0; i < (int)size; i++)
+	place = malloc(sizeof(int) * (y + 1));
+	if (!place)
+		return;
+	start_initi(place, y + 1);
+
+	for (sy = 0; sy < size; sy++)
+		place[array[sy]] += 1;
+
+	addplace = malloc(sizeof(int) * (y + 1));
+	if (!addplace)
+		return;
+	start_initi(addplace, y + 1);
+	addplace[0] = place[0];
+
+	for (s = 1; s < (y + 1); s++)
+		addplace[s] = place[s] + addplace[s - 1];
+
+	free(place), print_array(addplace, y + 1);
+
+	my_sorted = malloc(sizeof(int) * size);
+	if (!my_sorted)
+		return;
+	start_initi(my_sorted, size);
+
+	for (sy = 0; sy < size; sy++)
 	{
-		if (array[i] > max)
-			max = array[i];
-		if (array[i] < min)
-			min = array[i];
+		addplace[array[sy]] -= 1;
+		my_sorted[addplace[array[sy]]] = array[sy];
 	}
+	free(addplace);
 
-	count = malloc(sizeof(int) * (max - min + 1));
-	output = malloc(sizeof(int) * size);
-
-	for (i = 0; i <= max - min; i++)
-		count[i] = 0;
-
-	for (i = 0; i < (int)size; i++)
-		count[array[i] - min] += 1;
-
-	for (i = 1; i <= max - min; i++)
-		count[i] += count[i - 1];
-
-	print_array(count, max - min + 1);
-
-	for (j = size - 1; j >= 0; j--)
-	{
-		output[count[array[j] - min] - 1] = array[j];
-		count[array[j] - min] -= 1;
-	}
-
-	for (i = 0; i < (int)size; i++)
-		array[i] = output[i];
-
-	free(count);
-	free(output);
+	for (sy = 0; sy < size; sy++)
+		array[sy] = my_sorted[sy];
+	free(my_sorted);
 }
