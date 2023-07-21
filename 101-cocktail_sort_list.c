@@ -1,6 +1,5 @@
 #include "sort.h"
 
-
 /**
  * my_nod_swapi - my_swaping nodes in list
  *
