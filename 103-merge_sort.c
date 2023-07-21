@@ -86,15 +86,15 @@ void my_parser(int *array, size_t my_lb, size_t my_ub, int *my_copy)
  */
 void merge_sort(int *array, size_t size)
 {
-	int *clone;
+	int *my_clone;
 
 	if (!array || size < 2)   /* only one value or less in array */
 		return;
 
-	clone = malloc(sizeof(int) * size);
-	if (!clone)
+	my_clone = malloc(sizeof(int) * size);
+	if (!my_clone)
 		return;
 
-	my_parser(array, 0, size - 1, clone);
-	free(clone);
+	my_parser(array, 0, size - 1, my_clone);
+	free(my_clone);
 }
