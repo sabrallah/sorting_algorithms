@@ -9,14 +9,14 @@
  */
 void my_nod_swapi(listint_t **list, listint_t *one, listint_t *two)
 {
-	if (!one->prev)	/* at the one node */
+	if (!one->prev)
 		*list = two;
 	else
 		one->prev->next = two;
 
 	two->prev = one->prev;
 
-	if (two->next)	/* at the last node */
+	if (two->next)
 		two->next->prev = one;
 
 
@@ -37,14 +37,14 @@ void cocktail_sort_list(listint_t **list)
 	int my_swaping = 1;
 
 
-	if (!list || !(*list) || !(*list)->next)  /* only one node */
+	if (!list || !(*list) || !(*list)->next)
 		return;
 
 	avenir = *list;
 	while (my_swaping)
 	{
 		my_swaping = 0;
-		while (avenir->next)    /* traverse forward */
+		while (avenir->next)
 		{
 			if (avenir->n > avenir->next->n)
 			{
@@ -56,11 +56,11 @@ void cocktail_sort_list(listint_t **list)
 			avenir = avenir->next;
 		}
 
-		if (!my_swaping)   /* list is sorted */
+		if (!my_swaping)
 			break;
 
 		my_swaping = 0;
-		while (avenir->prev)    /* traverse backwards */
+		while (avenir->prev)
 		{
 			if (avenir->n < avenir->prev->n)
 			{
