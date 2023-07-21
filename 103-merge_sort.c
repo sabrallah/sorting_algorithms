@@ -8,7 +8,8 @@
  * @my_low: low boun
  * @my_hight: up boun
  */
-void my_print_parse(int *array, const char *my_text, size_t my_low, size_t my_hight)
+void my_print_parse(int *array, const char *my_text,
+		size_t my_low, size_t my_hight)
 {
 	size_t y;
 	char *my_separator = "";
@@ -31,7 +32,8 @@ void my_print_parse(int *array, const char *my_text, size_t my_low, size_t my_hi
  * @my_mid: mid split array
  * @my_copy: array sorte values
  */
-void my_join_parse(int *arr, size_t my_low, size_t my_hight, size_t my_mid, int *my_copy)
+void my_join_parse(int *arr, size_t my_low, size_t my_hight,
+		size_t my_mid, int *my_copy)
 {
 	size_t my_hstart = my_mid + 1, my_newIndex, my_lstart = my_low, y;
 
@@ -39,15 +41,16 @@ void my_join_parse(int *arr, size_t my_low, size_t my_hight, size_t my_mid, int 
 	my_print_parse(arr, "left", my_low, my_mid);
 	my_print_parse(arr, "right", my_mid + 1, my_hight);
 
-	for (my_newIndex = my_low; my_newIndex <= my_hight; my_newIndex++)  /* fill sorted val */
+	for (my_newIndex = my_low; my_newIndex <= my_hight; my_newIndex++)
 	{
-		if ((my_lstart <= my_mid && arr[my_lstart] <= arr[my_hstart]) || my_hstart > my_hight)
+		if ((my_lstart <= my_mid && arr[my_lstart] <= arr[my_hstart]) ||
+				my_hstart > my_hight)
 			my_copy[my_newIndex] = arr[my_lstart++];
 		else
 			my_copy[my_newIndex] = arr[my_hstart++];
 	}
 
-	for (y = my_low; y <= my_hight; y++)   /* update initial array with sorted arr */
+	for (y = my_low; y <= my_hight; y++)
 		arr[y] = my_copy[y];
 
 	my_print_parse(arr, "Done", my_low, my_hight);
@@ -88,7 +91,7 @@ void merge_sort(int *array, size_t size)
 {
 	int *my_clone;
 
-	if (!array || size < 2)   /* only one value or less in array */
+	if (!array || size < 2)
 		return;
 
 	my_clone = malloc(sizeof(int) * size);
